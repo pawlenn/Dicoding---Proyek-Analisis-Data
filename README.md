@@ -4,10 +4,10 @@
 Buka Command Prompt pada Windows atau tekan tombol Windows + R --> cmd
 ```
 cd proyek_analisis_data
-pip install seaborn matplotlib pandas numpy streamlit Babel
 ```
 sesuaikan dengan lokasi penyimpanan dashboard.py
 ```
+pip install seaborn matplotlib pandas numpy streamlit Babel
 streamlit run dashboard.py
 ```
 ## Streamlit Cloud
