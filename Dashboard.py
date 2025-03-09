@@ -41,7 +41,7 @@ def create_comp_data(df):
     return comp_data
 
 def create_casual_dom_df (df):
-    casual_dom_df = df[final_hour_df['casual'] > df['registered']]
+    casual_dom_df = df[df['casual'] > df['registered']]
     return casual_dom_df
 
 def create_hourly_user (df):
@@ -174,7 +174,7 @@ if axes[1].get_legend() is not None:
     axes[1].get_legend().remove()
 
 plt.suptitle("Pengaruh Suhu terhadap Jumlah Pengguna Sepeda", fontsize=20)
-plt.tight_layout()
+plt.subplots_adjust(hspace=0.5)
 
 st.pyplot(fig)
 
@@ -231,7 +231,7 @@ axes[1, 1].set_xlabel('Kecepatan Angin (Telah dinormalisasi)')
 axes[1, 1].set_ylabel('Total Pengguna Casual')
 axes[1, 1].set_title("Kecepatan Angin")
     
-plt.tight_layout()
+plt.subplots_adjust(hspace=0.5)
 st.pyplot(fig)
 
 # plot pola penggunaan dalam satu hari
