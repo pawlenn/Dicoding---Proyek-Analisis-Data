@@ -95,9 +95,6 @@ min_date = final_day_df["dteday"].min()
 max_date = final_day_df["dteday"].max()
 
 with st.sidebar:
-    # Menambahkan ilustrasi
-    st.image("https://github.com/pawlenn/Dicoding---Proyek-Analisis-Data/blob/4953c7a39d3c268df001771a898903b8550ec252/Bike%20Ilustration.jpeg")
-    
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
         label='Rentang Waktu',min_value=min_date,
