@@ -6,8 +6,48 @@ from babel.numbers import format_currency
 
 sns.set(style='dark')
 
-# Helper function yang dibutuhkan untuk menyiapkan berbagai dataframe
+st.markdown(
+    """
+    <style>
+    .big-title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #72BCD4;
+        text-align: center;
+        padding: 10px;
+    }
+    .custom-sidebar {
+        background-color: #f0f2f6;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
+st.markdown('<p class="big-title">🚲 Dashboard Sewa Sepeda</p>', unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <style>
+    .banner {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7" class="banner">',
+    unsafe_allow_html=True
+)
+
+
+# Helper function yang dibutuhkan untuk menyiapkan berbagai dataframe
 def create_monthly_data (df) :
     monthly_data = df.groupby(df['dteday'].dt.to_period('M'))[['cnt']].sum().reset_index()
     # Konversi dteday dari Period[M] ke datetime
@@ -268,3 +308,4 @@ axes[1].set_xlabel("Kategori Waktu")
 axes[1].set_ylabel("Total Rental Bike")
 
 st.pyplot(fig)
+
