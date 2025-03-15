@@ -100,12 +100,26 @@ hour_filtered = final_hour_df[final_hour_df["yr"] == (selected_year - 2011)]  # 
 
 # Sidebar: Pilih Rentang Tanggal
 st.sidebar.subheader("📅 Pilih Rentang Tanggal")
-start_date, end_date = st.sidebar.date_input(
-    "Rentang Tanggal",
-    [day_filtered["dteday"].min(), day_filtered["dteday"].max()],
-    min_value=day_filtered["dteday"].min(),
-    max_value=day_filtered["dteday"].max()
-)
+
+# Periksa apakah ada nilai NaT (Not a Time)
+if final_day_df["dteday"].isna().sum() > 0:
+    st.error("Data memiliki nilai tanggal yang hilang. Periksa dataset Anda.")
+else:
+    # Ambil min dan max date dengan pengecekan NaN
+    min_date = final_day_df["dteday"].min()
+    max_date = final_day_df["dteday"].max()
+
+    # Pastikan nilai tidak NaT sebelum digunakan
+    if pd.notna(min_date) and pd.notna(max_date):
+        start_date, end_date = st.sidebar.date_input(
+            "Rentang Tanggal",
+            [min_date, max_date],
+            min_value=min_date,
+            max_value=max_date
+        )
+    else:
+        st.error("Rentang tanggal tidak valid. Periksa dataset Anda.")
+
 
 # Filter Data berdasarkan Rentang Tanggal
 day_filtered = day_filtered[
