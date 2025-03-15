@@ -161,9 +161,12 @@ fig, ax = plt.subplots(figsize=(7, 5))
 # Bar Chart (rata-rata 'cnt' per kategori temp_range)
 bar_data = grouped_temp.groupby('temp_range', observed=True)['cnt'].mean().reset_index()
 
-# Highlight bar ke-7 (jumlah paling besar)
+# Pastikan jumlah elemen cukup sebelum mencoba mengubah warna indeks tertentu
 colors = ["#D3D3D3"] * len(bar_data)
-colors[6] = "#72BCD4"
+
+# Hanya ubah warna jika jumlah kategori lebih dari 7
+if len(colors) > 6:
+    colors[6] = "#72BCD4"
 
 sns.barplot(x='temp_range', y='cnt', data=bar_data, palette=colors, ax=ax)
 ax.set_title("Rata-rata Pengguna Berdasarkan Rentang Suhu")
@@ -178,6 +181,7 @@ plt.suptitle("Pengaruh Suhu terhadap Jumlah Pengguna Sepeda", fontsize=16)
 plt.tight_layout()
 
 st.pyplot(fig)
+
 
 
 # plot tren pengguna casual vs terdaftar
