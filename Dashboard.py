@@ -133,8 +133,17 @@ hour_filtered = hour_filtered[
     (hour_filtered["dteday"] <= pd.to_datetime(end_date))
 ]
 
-# Pastikan DataFrame yang digunakan selanjutnya adalah `day_filtered` dan `hour_filtered`
-# Misalnya, dalam pemrosesan lebih lanjut:
+# Hitung metrik utama
+total_sewa = day_filtered["cnt"].sum()
+avg_sewa = day_filtered["cnt"].mean()
+top_day = day_filtered.loc[day_filtered["cnt"].idxmax(), "dteday"]
+
+# Tampilkan di sidebar
+st.sidebar.metric("Total Sewa", total_sewa)
+st.sidebar.metric("Rata-rata Sewa per Hari", round(avg_sewa, 2))
+st.sidebar.text(f"Hari Tertinggi: {top_day}")
+
+# Membuat dataframe
 monthly_data = create_monthly_data(day_filtered)
 temp_cnt_df = create_temp_cnt_df(day_filtered)
 grouped_temp = temp_cnt_df.groupby('temp_range')['cnt'].mean().reset_index()
