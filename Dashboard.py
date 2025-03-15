@@ -141,7 +141,7 @@ top_day = day_filtered.loc[day_filtered["cnt"].idxmax(), "dteday"].date()
 # Tampilkan di sidebar
 st.sidebar.metric("Total Sewa", total_sewa)
 st.sidebar.metric("Rata-rata Sewa per Hari", round(avg_sewa, 2))
-st.sidebar.text(f"Hari Tertinggi: {top_day}")
+st.sidebar.text(f"Hari Sewa Tertinggi: {top_day}")
 
 # Membuat dataframe
 monthly_data = create_monthly_data(day_filtered)
@@ -179,7 +179,7 @@ ax.grid(True)
 st.pyplot(fig)
 
 # Plot rentang suhu
-st.subheader("Pengaruh Suhu terhadap Jumlah Pengguna Sewa Sepeda")
+st.subheader("Jumlah Pengguna Sewa Sepeda Berdasarkan Rentang Suhu")
 fig, ax = plt.subplots(figsize=(7, 5))
 
 bar_data = grouped_temp.groupby('temp_range', observed=True)['cnt'].mean().reset_index()
@@ -209,7 +209,6 @@ fig, ax = plt.subplots(figsize=(10, 5))
 sns.lineplot(data=comp_data, x=comp_data.index, y='casual', label='Pengguna Casual', color="#008174", ax=ax)
 sns.lineplot(data=comp_data, x=comp_data.index, y='registered', label='Pengguna Terdaftar', color="#000181", ax=ax)
 
-ax.set_title("Tren Jumlah Casual dan Registered Users Seiring Waktu")
 ax.set_xlabel("Waktu (Bulan)")
 ax.set_ylabel("Jumlah Pengguna")
 ax.set_ylim(0, None)  # Pastikan batas bawah 0
