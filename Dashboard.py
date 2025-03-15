@@ -90,36 +90,37 @@ final_hour_df.reset_index(inplace=True)
 for column in datetime_columns:
     final_hour_df[column] = pd.to_datetime(final_hour_df[column])
 
-# Sidebar: Pilih Tahun
-st.sidebar.subheader("📅 Pilih Tahun")
-selected_year = st.sidebar.selectbox("Pilih Tahun", [2011, 2012])
-
-# Filter Data berdasarkan Tahun
-day_filtered = final_day_df[final_day_df["yr"] == (selected_year - 2011)]  # yr: 0 untuk 2011, 1 untuk 2012
-hour_filtered = final_hour_df[final_hour_df["yr"] == (selected_year - 2011)]  # Sama untuk final_hour_df
-
 # Sidebar: Pilih Rentang Tanggal
 st.sidebar.subheader("📅 Pilih Rentang Tanggal")
 
-# Periksa apakah ada nilai NaT (Not a Time)
+# Pastikan tidak ada NaT (Not a Time) sebelum mengambil min/max date
 if final_day_df["dteday"].isna().sum() > 0:
     st.error("Data memiliki nilai tanggal yang hilang. Periksa dataset Anda.")
 else:
-    # Ambil min dan max date dengan pengecekan NaN
     min_date = final_day_df["dteday"].min()
     max_date = final_day_df["dteday"].max()
 
-    # Pastikan nilai tidak NaT sebelum digunakan
     if pd.notna(min_date) and pd.notna(max_date):
+        # Pilihan rentang tanggal langsung tanpa pemilihan tahun
         start_date, end_date = st.sidebar.date_input(
             "Rentang Tanggal",
             [min_date, max_date],
             min_value=min_date,
             max_value=max_date
         )
+
+        # Filter data berdasarkan rentang tanggal yang dipilih
+        day_filtered = final_day_df[
+            (final_day_df["dteday"] >= pd.to_datetime(start_date)) &
+            (final_day_df["dteday"] <= pd.to_datetime(end_date))
+        ]
+        
+        hour_filtered = final_hour_df[
+            (final_hour_df["dteday"] >= pd.to_datetime(start_date)) &
+            (final_hour_df["dteday"] <= pd.to_datetime(end_date))
+        ]
     else:
         st.error("Rentang tanggal tidak valid. Periksa dataset Anda.")
-
 
 # Filter Data berdasarkan Rentang Tanggal
 day_filtered = day_filtered[
