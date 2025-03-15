@@ -169,9 +169,9 @@ st.subheader("Jumlah Pengguna Sewa Sepeda Berdasarkan Rentang Suhu")
 fig, ax = plt.subplots(figsize=(7, 5))
 
 bar_data = grouped_temp.groupby('temp_range', observed=True)['cnt'].mean().reset_index()
+max_index = bar_data['cnt'].idxmax()
 colors = ["#D3D3D3"] * len(bar_data)
-if len(colors) > 6:
-    colors[6] = "#72BCD4"
+colors[max_index] = "#72BCD4"
 
 sns.barplot(x='temp_range', y='cnt', data=bar_data, palette=colors, ax=ax)
 ax.set_xlabel("Suhu (Celsius)")
@@ -183,6 +183,7 @@ if ax.get_legend() is not None:
 
 plt.tight_layout()
 st.pyplot(fig)
+
 
 # plot tren pengguna casual vs terdaftar
 st.subheader("Tren Jumlah Pengguna Casual dan Terdaftar Seiring Waktu")
