@@ -5,7 +5,7 @@ import streamlit as st
 from babel.numbers import format_currency
 
 sns.set(style='dark')
-st.markdown("# Penggunaan Rental Bike 🚴‍♀️", unsafe_allow_html=True)
+st.markdown("# Penggunaan Sewa Sepeeda 🚴‍♀️", unsafe_allow_html=True)
 
 # Helper function yang dibutuhkan untuk menyiapkan berbagai dataframe
 def create_monthly_data (df) :
