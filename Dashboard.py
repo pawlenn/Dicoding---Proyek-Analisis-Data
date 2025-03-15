@@ -244,7 +244,7 @@ st.pyplot(fig)
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
 # Menambahkan judul utama untuk seluruh figure
-fig.subtitle("Penggunaan Sewa Sepeda dalam Satu Hari", fontsize=14, fontweight="bold")
+st.subheader("Penggunaan Sewa Sepeda dalam Satu Hari")
 
 # Subplot 1: Pola Penggunaan Rental Bike dalam Sehari
 axes[0].set_title("Pola Penggunaan Rental Bike dalam Sehari")
