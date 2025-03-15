@@ -136,7 +136,7 @@ hour_filtered = hour_filtered[
 # Hitung metrik utama
 total_sewa = day_filtered["cnt"].sum()
 avg_sewa = day_filtered["cnt"].mean()
-top_day = day_filtered.loc[day_filtered["cnt"].idxmax(), "dteday"]
+top_day = day_filtered.loc[day_filtered["cnt"].idxmax(), "dteday"].date()
 
 # Tampilkan di sidebar
 st.sidebar.metric("Total Sewa", total_sewa)
@@ -164,13 +164,14 @@ with col1:
 with col2:
     maks_user = monthly_data.cnt.max()
     st.metric("Pengguna Bulanan Terbesar", value=maks_user)
-
+    
 fig, ax = plt.subplots(figsize=(10, 6))
 sns.lineplot(data=monthly_data, x='Month', y='cnt', hue='Year', marker='o', palette=["#008174", "#000181"], ax=ax)
 
 ax.set_title('Total Pengguna Bulanan pada 2011 dan 2012', fontsize=14)
 ax.set_xlabel('Bulan', fontsize=12)
 ax.set_ylabel('Total Pengguna', fontsize=12)
+ax.set_ylim(0, None)  # Pastikan batas bawah 0
 ax.set_xticklabels(monthly_data['Month'].unique(), rotation=45)
 ax.legend(title="Year")
 ax.grid(True)
@@ -178,94 +179,83 @@ ax.grid(True)
 st.pyplot(fig)
 
 # Plot rentang suhu
-st.subheader("Pengaruh Suhu terhadap Jumlah Pengguna Sepeda")
-
+st.subheader("Pengaruh Suhu terhadap Jumlah Pengguna Sewa Sepeda")
 fig, ax = plt.subplots(figsize=(7, 5))
 
-# Bar Chart (rata-rata 'cnt' per kategori temp_range)
 bar_data = grouped_temp.groupby('temp_range', observed=True)['cnt'].mean().reset_index()
-
-# Pastikan jumlah elemen cukup sebelum mencoba mengubah warna indeks tertentu
 colors = ["#D3D3D3"] * len(bar_data)
-
-# Hanya ubah warna jika jumlah kategori lebih dari 7
 if len(colors) > 6:
     colors[6] = "#72BCD4"
 
 sns.barplot(x='temp_range', y='cnt', data=bar_data, palette=colors, ax=ax)
 ax.set_xlabel("Suhu (Celsius)")
 ax.set_ylabel("Total Pengguna")
+ax.set_ylim(0, None)  # Pastikan batas bawah 0
 
-# Menghapus legenda jika ada
 if ax.get_legend() is not None:
     ax.get_legend().remove()
 
 plt.tight_layout()
 st.pyplot(fig)
 
-
-
 # plot tren pengguna casual vs terdaftar
-st.subheader("Tren Jumlah Casual dan Registered Users Seiring Waktu")
+st.subheader("Tren Jumlah Pengguna Casual dan Terdaftar Seiring Waktu")
 
-# dteday adalah period dan ubah ke datetime
 comp_data['dteday'] = comp_data['dteday'].dt.to_timestamp()
 comp_data.set_index('dteday', inplace=True)
 
 fig, ax = plt.subplots(figsize=(10, 5))
 
-sns.lineplot(data=comp_data, x=comp_data.index, y='casual', label='Casual Users', color="#008174", ax=ax)
-sns.lineplot(data=comp_data, x=comp_data.index, y='registered', label='Registered Users', color="#000181", ax=ax)
+sns.lineplot(data=comp_data, x=comp_data.index, y='casual', label='Pengguna Casual', color="#008174", ax=ax)
+sns.lineplot(data=comp_data, x=comp_data.index, y='registered', label='Pengguna Terdaftar', color="#000181", ax=ax)
 
 ax.set_title("Tren Jumlah Casual dan Registered Users Seiring Waktu")
 ax.set_xlabel("Waktu (Bulan)")
 ax.set_ylabel("Jumlah Pengguna")
+ax.set_ylim(0, None)  # Pastikan batas bawah 0
 ax.grid(True)
 ax.legend()
 
 st.pyplot(fig)
 
 # Plot kondisi pengguna casual > terdaftar
-
 st.subheader("Kondisi saat Pengguna Casual Dominan")
-
-# Membuat figure dengan 1 baris dan 2 kolom
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-# Plot 1: Faktor Weekday/Weekend
-colors = ["#D3D3D3", "#72BCD4"]  # Weekend (0) abu-abu, Workday (1) biru
+colors = ["#D3D3D3", "#72BCD4"]
 sns.countplot(x="workingday", data=casual_dom_df, palette=colors, ax=axes[0])
 axes[0].set_title("Jenis Hari (0 = Weekend/Holiday, 1 = Workday)")
 axes[0].set_xlabel('Jenis Hari')
 axes[0].set_ylabel('Total Pengguna Casual')
+axes[0].set_ylim(0, None)  # Pastikan batas bawah 0
 
-# Plot 2: Faktor Musim
-season_colors = ["#D3D3D3", "#72BCD4", "#D3D3D3", "#D3D3D3"]  # Summer (2) biru
+season_colors = ["#D3D3D3", "#72BCD4", "#D3D3D3", "#D3D3D3"]
 sns.countplot(x="season", data=casual_dom_df, palette=season_colors, ax=axes[1])
 axes[1].set_title("Musim")
 axes[1].set_xticklabels(['Spring', 'Summer', 'Fall', 'Winter'])
 axes[1].set_xlabel('Jenis Musim')
 axes[1].set_ylabel('Total Pengguna Casual')
+axes[1].set_ylim(0, None)  # Pastikan batas bawah 0
 
 plt.tight_layout()
 st.pyplot(fig)
 
-# Membuat satu figure dengan dua subplot (1 baris, 2 kolom)
+# Plot pengguna sewaa sepeda dalam satu hari
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
-# Menambahkan judul utama untuk seluruh figure
 st.subheader("Penggunaan Sewa Sepeda dalam Satu Hari")
 
-# Subplot 1: Pola Penggunaan Rental Bike dalam Sehari
-axes[0].set_title("Pola Penggunaan Rental Bike dalam Sehari")
+# Pola Penggunaan Rental Bike dalam Sehari
+axes[0].set_title("Pola Penggunaan Sewa Sepeda dalam Sehari")
 sns.lineplot(x=hourly_user['hr'], y=hourly_user['cnt'], marker='o', color="#72BCD4", ax=axes[0])
 axes[0].set_xlabel("Jam dalam Sehari")
 axes[0].set_ylabel("Rata-rata Jumlah Pengguna")
-axes[0].set_xticks(range(0, 24))  # Pastikan semua jam terlihat dengan jelas
+axes[0].set_ylim(0, None)  # Pastikan batas bawah 0
+axes[0].set_xticks(range(0, 24))
 axes[0].grid()
 
-# Subplot 2: Perbandingan Penggunaan Rental Bike antara Jam Sibuk dan Jam Santai
-axes[1].set_title("Perbandingan Penggunaan Rental Bike antara Jam Sibuk dan Jam Santai")
+# Perbandingan Penggunaan Rental Bike antara Jam Sibuk dan Jam Santai
+axes[1].set_title("Perbandingan Penggunaan Sewa Sepeda antara Jam Sibuk dan Jam Santai")
 sns.barplot(
     x="time_category",
     y="cnt",
@@ -276,6 +266,6 @@ sns.barplot(
 )
 axes[1].set_xlabel("Kategori Waktu")
 axes[1].set_ylabel("Total Rental Bike")
+axes[1].set_ylim(0, None)  # Pastikan batas bawah 0
 
 st.pyplot(fig)
-
