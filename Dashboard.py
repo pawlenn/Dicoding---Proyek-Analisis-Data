@@ -10,7 +10,7 @@ st.markdown(
     """
     <style>
     .big-title {
-        font-size: 36px;
+        font-size: 70px;
         font-weight: bold;
         color: #72BCD4;
         text-align: center;
@@ -42,7 +42,7 @@ st.markdown(
 )
 
 st.markdown(
-    '<img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7" class="banner">',
+    '<img src="https://images.unsplash.com/photo-1501147830916-ce44a6359892?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="banner">',
     unsafe_allow_html=True
 )
 
