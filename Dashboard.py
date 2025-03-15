@@ -51,7 +51,7 @@ def create_hourly_user (df):
 def create_rush_hour(df):
     def categorize_time(hour):
         if 7 <= hour <= 9 or 16 <= hour <= 19:
-            return "Jam Sibuk"
+            return "Jam Sibuk (07.00-09.00 dan 16.00-19.00)"
         else:
             return "Jam Santai"
 
@@ -59,20 +59,6 @@ def create_rush_hour(df):
     df["time_category"] = df["hr"].apply(categorize_time)
     df.groupby("time_category")["cnt"].sum()
     return df
-
-def create_day_category (df) :
-    def categorize_day(row):
-        if row["holiday"] == 1:
-            return "Holiday"
-        elif row["workingday"] == 1:
-            return "Weekday"
-        else:
-            return "Weekend"
-
-    # Buat kolom baru berdasarkan kategori hari
-    df["day_category"] = df.apply(categorize_day, axis=1)
-    return df
-
 
 # Load cleaned data
 final_day_df = pd.read_csv("day_data.csv")
