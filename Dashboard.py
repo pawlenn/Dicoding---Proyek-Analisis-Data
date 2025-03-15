@@ -183,7 +183,6 @@ if len(colors) > 6:
     colors[6] = "#72BCD4"
 
 sns.barplot(x='temp_range', y='cnt', data=bar_data, palette=colors, ax=ax)
-ax.set_title("Rata-rata Pengguna Berdasarkan Rentang Suhu")
 ax.set_xlabel("Suhu (Celsius)")
 ax.set_ylabel("Total Pengguna")
 
@@ -191,9 +190,7 @@ ax.set_ylabel("Total Pengguna")
 if ax.get_legend() is not None:
     ax.get_legend().remove()
 
-plt.suptitle("Pengaruh Suhu terhadap Jumlah Pengguna Sepeda", fontsize=16)
 plt.tight_layout()
-
 st.pyplot(fig)
 
 
@@ -247,7 +244,7 @@ st.pyplot(fig)
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
 # Menambahkan judul utama untuk seluruh figure
-fig.suptitle("Penggunaan Sewa Sepeda dalam Satu Hari", fontsize=14, fontweight="bold")
+fig.subtitle("Penggunaan Sewa Sepeda dalam Satu Hari", fontsize=14, fontweight="bold")
 
 # Subplot 1: Pola Penggunaan Rental Bike dalam Sehari
 axes[0].set_title("Pola Penggunaan Rental Bike dalam Sehari")
