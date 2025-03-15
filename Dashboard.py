@@ -5,47 +5,7 @@ import streamlit as st
 from babel.numbers import format_currency
 
 sns.set(style='dark')
-
-st.markdown(
-    """
-    <style>
-    .big-title {
-        font-size: 70px;
-        font-weight: bold;
-        color: #72BCD4;
-        text-align: center;
-        padding: 10px;
-    }
-    .custom-sidebar {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown('<p class="big-title">🚲 Dashboard Sewa Sepeda</p>', unsafe_allow_html=True)
-
-st.markdown(
-    """
-    <style>
-    .banner {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<img src="https://images.unsplash.com/photo-1501147830916-ce44a6359892?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="banner">',
-    unsafe_allow_html=True
-)
-
+st.markdown("# Penggunaan Rental Bike 🚴‍♀️", unsafe_allow_html=True)
 
 # Helper function yang dibutuhkan untuk menyiapkan berbagai dataframe
 def create_monthly_data (df) :
